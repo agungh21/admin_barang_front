@@ -95,11 +95,20 @@ function hapusDariKeranjang(index) {
 
 // Menghitung kembalian
 function hitungKembalian() {
-    const totalHarga = parseInt(document.getElementById("totalHarga").textContent.replace(/,/g, "")) || 0;
-    const uangBayar = parseInt(document.getElementById("uangBayar").value) || 0;
+    // Ambil nilai total harga & bersihkan format angka
+    const totalHargaText = document.getElementById("totalHarga").textContent.replace(/[^\d]/g, ""); // Hapus semua kecuali angka
+    const totalHarga = parseInt(totalHargaText, 10) || 0;
+
+    // Ambil nilai uang bayar & pastikan angka valid
+    const uangBayarText = document.getElementById("uangBayar").value.replace(/[^\d]/g, ""); // Hapus karakter selain angka
+    const uangBayar = parseInt(uangBayarText, 10) || 0;
+
+    // Hitung kembalian
     const kembalian = uangBayar - totalHarga;
 
-    document.getElementById("kembalian").textContent = kembalian >= 0 ? kembalian.toLocaleString() : "Kurang!";
+    // Tampilkan hasil
+    document.getElementById("kembalian").textContent = 
+        kembalian >= 0 ? kembalian.toLocaleString() : "Kurang!";
 }
 
 // Menampilkan form untuk tambah/edit barang
