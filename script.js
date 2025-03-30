@@ -5,14 +5,27 @@ let cart = [];
 
 // Load barang dari server
 async function loadBarang() {
-    const response = await fetch(API_URL);
-    barangData = await response.json();
-    tampilkanBarang(barangData);
+    try {
+        const response = await fetch(API_URL);
+        if (!response.ok) {
+            throw new Error(`Gagal memuat data: ${response.statusText}`);
+        }
+        barangData = await response.json();
+        tampilkanBarang(barangData);
+    } catch (error) {
+        console.error("Error saat memuat barang:", error);
+        alert("Gagal memuat data barang! Periksa koneksi atau server.");
+    }
 }
 
 function tampilkanBarang(data) {
     const tbody = document.getElementById("barangList");
     tbody.innerHTML = "";
+
+    if (!Array.isArray(data)) {
+        console.error("Data barang bukan array!", data);
+        return;
+    }
 
     data.forEach(item => {
         const row = `<tr>
@@ -27,123 +40,50 @@ function tampilkanBarang(data) {
         tbody.innerHTML += row;
     });
 
-    // Inisialisasi DataTable setelah data dimuat
+    if ($.fn.DataTable.isDataTable("#barangTable")) {
+        $("#barangTable").DataTable().destroy();
+    }
     $("#barangTable").DataTable();
 }
 
-
-// Pencarian barang
-function cariBarang() {
-    const keyword = document.getElementById("searchBarang").value.toLowerCase();
-    const hasilFilter = barangData.filter(item => item.nama.toLowerCase().includes(keyword));
-    tampilkanBarang(hasilFilter);
-}
-
-// Menambahkan barang ke keranjang
-function tambahKeKeranjang(id) {
-    const barang = barangData.find(item => item.id === id);
-    if (!barang) return;
-
-    const existingItem = cart.find(item => item.id === id);
-    if (existingItem) {
-        existingItem.jumlah += 1;
-    } else {
-        cart.push({ ...barang, jumlah: 1 });
-    }
-
-    tampilkanKeranjang();
-}
-
-// Menampilkan keranjang belanja
-function tampilkanKeranjang() {
-    const tbody = document.getElementById("cartList");
-    tbody.innerHTML = "";
-    let total = 0;
-
-    cart.forEach((item, index) => {
-        const subtotal = item.harga * item.jumlah;
-        total += subtotal;
-
-        const row = `<tr>
-            <td>${item.nama}</td>
-            <td>Rp ${item.harga.toLocaleString()}</td>
-            <td><input type="number" min="1" value="${item.jumlah}" class="form-control" 
-                onchange="ubahJumlah(${index}, this.value)"></td>
-            <td>Rp ${subtotal.toLocaleString()}</td>
-            <td>
-                <button class="btn btn-danger btn-sm" onclick="hapusDariKeranjang(${index})">Hapus</button>
-            </td>
-        </tr>`;
-        tbody.innerHTML += row;
-    });
-
-    document.getElementById("totalHarga").textContent = total.toLocaleString();
-}
-
-// Mengubah jumlah barang di keranjang
-function ubahJumlah(index, jumlah) {
-    cart[index].jumlah = parseInt(jumlah) || 1;
-    tampilkanKeranjang();
-}
-
-// Menghapus barang dari keranjang
-function hapusDariKeranjang(index) {
-    cart.splice(index, 1);
-    tampilkanKeranjang();
-}
-
-// Menghitung kembalian
-function hitungKembalian() {
-    // Ambil nilai total harga & bersihkan format angka
-    const totalHargaText = document.getElementById("totalHarga").textContent.replace(/[^\d]/g, ""); // Hapus semua kecuali angka
-    const totalHarga = parseInt(totalHargaText, 10) || 0;
-
-    // Ambil nilai uang bayar & pastikan angka valid
-    const uangBayarText = document.getElementById("uangBayar").value.replace(/[^\d]/g, ""); // Hapus karakter selain angka
-    const uangBayar = parseInt(uangBayarText, 10) || 0;
-
-    // Hitung kembalian
-    const kembalian = uangBayar - totalHarga;
-
-    // Tampilkan hasil
-    document.getElementById("kembalian").textContent = 
-        kembalian >= 0 ? kembalian.toLocaleString() : "Kurang!";
-}
-
-// Menampilkan form untuk tambah/edit barang
 function tampilForm(id = null) {
     const form = document.getElementById("formBarang");
+    if (!form) {
+        console.error("Elemen form tidak ditemukan!");
+        return;
+    }
     form.classList.remove("d-none");
 
     if (id) {
         document.getElementById("formTitle").textContent = "Edit Barang";
         const barang = barangData.find(item => item.id === id);
-        if (!barang) return;
-        
-        document.getElementById("editId").value = barang.id;
-        document.getElementById("namaBarang").value = barang.nama;
-        document.getElementById("hargaBarang").value = barang.harga;
-        document.getElementById("stokBarang").value = barang.stok;
+        if (!barang) {
+            console.error("Barang tidak ditemukan!");
+            return;
+        }
+
+        document.getElementById("editId").value = barang.id || "";
+        document.getElementById("namaBarang").value = barang.nama || "";
+        document.getElementById("hargaBarang").value = barang.harga || "";
+        document.getElementById("stokBarang").value = barang.stok || 1;
     } else {
         document.getElementById("formTitle").textContent = "Tambah Barang";
         document.getElementById("editId").value = "";
         document.getElementById("namaBarang").value = "";
         document.getElementById("hargaBarang").value = "";
-        document.getElementById("stokBarang").value = "";
+        document.getElementById("stokBarang").value = 1;
     }
 }
 
-// Menyembunyikan form
 function sembunyikanForm() {
     document.getElementById("formBarang").classList.add("d-none");
 }
 
-// Simpan barang (Tambah/Edit)
 async function simpanBarang() {
-    const id = document.getElementById("editId").value;
-    const nama = document.getElementById("namaBarang").value;
-    const harga = document.getElementById("hargaBarang").value;
-    const stok = 1;
+    const id = document.getElementById("editId").value.trim();
+    const nama = document.getElementById("namaBarang").value.trim();
+    const harga = document.getElementById("hargaBarang").value.trim();
+    const stok = document.getElementById("stokBarang").value.trim();
 
     if (!nama || !harga || !stok) {
         alert("Semua field harus diisi!");
@@ -152,40 +92,39 @@ async function simpanBarang() {
 
     const payload = { nama, harga: Number(harga), stok: Number(stok) };
 
-    let response;
-    if (id) {
-        response = await fetch(`${API_URL}/${id}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-        });
-    } else {
-        payload.id = Date.now().toString();
-        response = await fetch(API_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-        });
-    }
+    try {
+        let response;
+        if (id) {
+            response = await fetch(`${API_URL}/${id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+        } else {
+            payload.id = Date.now().toString();
+            response = await fetch(API_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+        }
 
-    if (response.ok) {
+        if (!response.ok) {
+            throw new Error("Gagal menyimpan barang!");
+        }
+
         sembunyikanForm();
-        loadBarang();
+        await loadBarang();
+    } catch (error) {
+        console.error("Error menyimpan barang:", error);
+        alert("Terjadi kesalahan saat menyimpan barang!");
     }
 }
 
-// Edit barang
-function editBarang(id) {
-    tampilForm(id);
-}
-
-// Hapus barang
 async function hapusBarang(id) {
     if (!confirm("Apakah Anda yakin ingin menghapus barang ini?")) return;
-
     await fetch(`${API_URL}/${id}`, { method: "DELETE" });
     loadBarang();
 }
 
-// Load barang saat halaman dibuka
 document.addEventListener("DOMContentLoaded", loadBarang);
