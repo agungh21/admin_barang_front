@@ -112,58 +112,87 @@ function hitungKembalian() {
 // Menampilkan form untuk tambah/edit barang
 function tampilForm(id = null) {
     const form = document.getElementById("formBarang");
+    if (!form) return;
+
     form.classList.remove("d-none");
+
+    const inputId = document.getElementById("editId");
+    const inputNama = document.getElementById("namaBarang");
+    const inputHarga = document.getElementById("hargaBarang");
+
+    if (!inputId || !inputNama || !inputHarga) {
+        console.error("Elemen form tidak ditemukan!");
+        return;
+    }
 
     if (id) {
         document.getElementById("formTitle").textContent = "Edit Barang";
         const barang = barangData.find(item => item.id === id);
         if (!barang) return;
-        
-        document.getElementById("editId").value = barang.id;
-        document.getElementById("namaBarang").value = barang.nama;
-        document.getElementById("hargaBarang").value = barang.harga;
+
+        inputId.value = barang.id;
+        inputNama.value = barang.nama;
+        inputHarga.value = barang.harga;
     } else {
         document.getElementById("formTitle").textContent = "Tambah Barang";
-        document.getElementById("editId").value = "";
-        document.getElementById("namaBarang").value = "";
-        document.getElementById("hargaBarang").value = "";
+        inputId.value = "";
+        inputNama.value = "";
+        inputHarga.value = "";
     }
 }
 
-// Simpan barang (Tambah/Edit)
-async function simpanBarang() {
-    const id = document.getElementById("editId").value;
-    const nama = document.getElementById("namaBarang").value;
-    const harga = document.getElementById("hargaBarang").value;
 
-    if (!nama || !harga) {
-        alert("Semua field harus diisi!");
+// Simpan barang (Tambah/Edit)
+aasync function simpanBarang() {
+    const inputId = document.getElementById("editId");
+    const inputNama = document.getElementById("namaBarang");
+    const inputHarga = document.getElementById("hargaBarang");
+
+    if (!inputId || !inputNama || !inputHarga) {
+        console.error("Elemen input tidak ditemukan!");
         return;
     }
 
-    const payload = { nama, harga: Number(harga) };
+    const id = inputId.value;
+    const nama = inputNama.value.trim();
+    const harga = Number(inputHarga.value.trim());
 
-    let response;
-    if (id) {
-        response = await fetch(`${API_URL}/${id}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-        });
-    } else {
-        payload.id = Date.now().toString();
-        response = await fetch(API_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-        });
+    if (!nama || !harga) {
+        alert("Nama dan harga harus diisi!");
+        return;
     }
 
-    if (response.ok) {
-        sembunyikanForm();
-        loadBarang();
+    const payload = { nama, harga };
+
+    try {
+        let response;
+        if (id) {
+            response = await fetch(`${API_URL}/${id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+        } else {
+            payload.id = Date.now().toString();
+            response = await fetch(API_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+        }
+
+        if (response.ok) {
+            sembunyikanForm();
+            loadBarang();
+        } else {
+            throw new Error("Gagal menyimpan data");
+        }
+    } catch (error) {
+        console.error("Error menyimpan barang:", error);
+        alert("Terjadi kesalahan saat menyimpan barang!");
     }
 }
+
 
 // Load barang saat halaman dibuka
 document.addEventListener("DOMContentLoaded", loadBarang);
