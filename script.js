@@ -1,5 +1,5 @@
 // const API_URL = "http://localhost:3000/barang";
-const API_URL = "https://admin-barang.vercel.app/";
+const API_URL = "https://admin-barang.vercel.app/barang";
 let barangData = [];
 let cart = [];
 
