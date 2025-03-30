@@ -18,7 +18,6 @@ function tampilkanBarang(data) {
         const row = `<tr>
             <td>${item.nama}</td>
             <td>Rp ${item.harga.toLocaleString()}</td>
-            <td>${item.stok}</td>
             <td>
                 <button class="btn btn-success btn-sm" onclick="tambahKeKeranjang('${item.id}')">Pilih</button>
                 <button class="btn btn-warning btn-sm" onclick="editBarang('${item.id}')">Edit</button>
