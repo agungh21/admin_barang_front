@@ -143,7 +143,7 @@ function tampilForm(id = null) {
 
 
 // Simpan barang (Tambah/Edit)
-aasync function simpanBarang() {
+async function simpanBarang() {
     const inputId = document.getElementById("editId");
     const inputNama = document.getElementById("namaBarang");
     const inputHarga = document.getElementById("hargaBarang");
