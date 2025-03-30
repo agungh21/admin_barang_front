@@ -20,7 +20,7 @@ function tampilkanBarang(data) {
             <td>Rp ${item.harga.toLocaleString()}</td>
             <td>
                 <button class="btn btn-success btn-sm" onclick="tambahKeKeranjang('${item.id}')">Pilih</button><br>
-                <button class="btn btn-warning btn-sm" onclick="editBarang('${item.id}')">Edit</button><br>
+                <button class="btn btn-warning btn-sm" onclick="tampilForm('${item.id}')">Edit</button><br>
                 <button class="btn btn-danger btn-sm" onclick="hapusBarang('${item.id}')">Hapus</button>
             </td>
         </tr>`;
@@ -197,6 +197,21 @@ function sembunyikanForm() {
     const form = document.getElementById("formBarang");
     if (form) {
         form.classList.add("d-none");
+    }
+}
+
+// Fungsi untuk menghapus barang
+function hapusBarang(id) {
+    if (confirm('Apakah Anda yakin ingin menghapus barang ini?')) {
+        $.ajax({
+            url: 'hapus_barang.php',
+            type: 'POST',
+            data: { id: id },
+            success: function (response) {
+                alert(response);
+                loadBarang();
+            }
+        });
     }
 }
 
