@@ -193,6 +193,13 @@ aasync function simpanBarang() {
     }
 }
 
+function sembunyikanForm() {
+    const form = document.getElementById("formBarang");
+    if (form) {
+        form.classList.add("d-none");
+    }
+}
+
 
 // Load barang saat halaman dibuka
 document.addEventListener("DOMContentLoaded", loadBarang);
