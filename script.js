@@ -143,7 +143,7 @@ async function simpanBarang() {
     const id = document.getElementById("editId").value;
     const nama = document.getElementById("namaBarang").value;
     const harga = document.getElementById("hargaBarang").value;
-    const stok = document.getElementById("stokBarang").value;
+    const stok = 1;
 
     if (!nama || !harga || !stok) {
         alert("Semua field harus diisi!");
