@@ -19,8 +19,8 @@ function tampilkanBarang(data) {
             <td>${item.nama}</td>
             <td>Rp ${item.harga.toLocaleString()}</td>
             <td>
-                <button class="btn btn-success btn-sm" onclick="tambahKeKeranjang('${item.id}')">Pilih</button>
-                <button class="btn btn-warning btn-sm" onclick="editBarang('${item.id}')">Edit</button>
+                <button class="btn btn-success btn-sm" onclick="tambahKeKeranjang('${item.id}')">Pilih</button><br>
+                <button class="btn btn-warning btn-sm" onclick="editBarang('${item.id}')">Edit</button><br>
                 <button class="btn btn-danger btn-sm" onclick="hapusBarang('${item.id}')">Hapus</button>
             </td>
         </tr>`;
