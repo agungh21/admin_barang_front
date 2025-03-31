@@ -50,7 +50,7 @@
                             <th>#</th>
                             <th>Nama</th>
                             <th>Harga</th>
-                            <th>Aksi</th>
+                            <th>#</th>
                         </tr>
                     </thead>
                     <tbody id="barangList"></tbody>
@@ -71,7 +71,7 @@
                             <th>Harga</th>
                             <th>Jumlah</th>
                             <th>Subtotal</th>
-                            <th>Aksi</th>
+                            <th>#</th>
                         </tr>
                     </thead>
                     <tbody id="cartList"></tbody>
@@ -81,8 +81,7 @@
                 <!-- Input Uang Bayar & Kembalian -->
                  <hr>
                 <div class="mb-2">
-                    <label class="form-label text-success">Uang Bayar:</label>
-                    <input type="number" id="uangBayar" class="form-control" oninput="hitungKembalian()">
+                    <input type="number" id="uangBayar" class="form-control" placeholder="Masukkan Uang Bayar disini" oninput="hitungKembalian()">
                 </div>
                 <h4 class="text-success text-center">Kembalian: Rp <span id="kembalian">0</span></h4>
             </div>
