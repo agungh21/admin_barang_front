@@ -16,19 +16,26 @@ function tampilkanBarang(data) {
 
     data.forEach(item => {
         const row = `<tr>
+            <td><button class="btn btn-success btn-sm" onclick="tambahKeKeranjang('${item.id}')"><i class="fas fa-plus"></i></button></td>
             <td>${item.nama}</td>
-            <td>Rp ${item.harga.toLocaleString()}</td>
+            <td>${item.harga.toLocaleString()}</td>
             <td>
-                <button class="btn btn-success btn-sm" onclick="tambahKeKeranjang('${item.id}')">Pilih</button><br>
-                <button class="btn btn-warning btn-sm" onclick="tampilForm('${item.id}')">Edit</button><br>
-                <button class="btn btn-danger btn-sm" onclick="hapusBarang('${item.id}')">Hapus</button>
+                <button class="btn btn-warning btn-sm" onclick="tampilForm('${item.id}')"><i class="fas fa-edit"></i></button>
+                <button class="btn btn-danger btn-sm" onclick="hapusBarang('${item.id}')"><i class="fas fa-trash"></i></button>
             </td>
         </tr>`;
         tbody.innerHTML += row;
     });
 
-    // Inisialisasi DataTable setelah data dimuat
-    $("#barangTable").DataTable();
+    // Inisialisasi DataTable dengan opsi pageLength 3
+    $("#barangTable").DataTable({
+        "pageLength": 10,
+        "lengthChange": false,
+        "language": {
+            "search": "Cari Barang:" // Mengubah teks default "Search:" menjadi "Cari Barang:"
+        },
+        "dom": '<"top"f>rt<"bottom"p><"clear">' // Mengatur agar hanya search box di atas
+    });
 }
 
 // Pencarian barang
@@ -65,12 +72,12 @@ function tampilkanKeranjang() {
 
         const row = `<tr>
             <td>${item.nama}</td>
-            <td>Rp ${item.harga.toLocaleString()}</td>
+            <td>${item.harga.toLocaleString()}</td>
             <td><input type="number" min="1" value="${item.jumlah}" class="form-control" 
                 onchange="ubahJumlah(${index}, this.value)"></td>
-            <td>Rp ${subtotal.toLocaleString()}</td>
+            <td>${subtotal.toLocaleString()}</td>
             <td>
-                <button class="btn btn-danger btn-sm" onclick="hapusDariKeranjang(${index})">Hapus</button>
+                <button class="btn btn-danger btn-sm" onclick="hapusDariKeranjang(${index})"><i class="fas fa-trash"></i></button>
             </td>
         </tr>`;
         tbody.innerHTML += row;
