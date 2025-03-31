@@ -201,19 +201,27 @@ function sembunyikanForm() {
 }
 
 // Fungsi untuk menghapus barang
-function hapusBarang(id) {
+async function hapusBarang(id) {
     if (confirm('Apakah Anda yakin ingin menghapus barang ini?')) {
-        $.ajax({
-            url: 'hapus_barang.php',
-            type: 'POST',
-            data: { id: id },
-            success: function (response) {
-                alert(response);
-                loadBarang();
+        try {
+            const response = await fetch(`${API_URL}/${id}`, {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" }
+            });
+
+            if (!response.ok) {
+                throw new Error(`Gagal menghapus barang: ${response.statusText}`);
             }
-        });
+            
+            alert('Barang berhasil dihapus');
+            loadBarang();
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Terjadi kesalahan saat menghapus barang');
+        }
     }
 }
+
 
 
 // Load barang saat halaman dibuka
