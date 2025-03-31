@@ -214,13 +214,14 @@ async function hapusBarang(id) {
             }
             
             alert('Barang berhasil dihapus');
-            loadBarang();
+            loadBarang(); // Pastikan fungsi ini ada dan berfungsi
         } catch (error) {
             console.error('Error:', error);
             alert('Terjadi kesalahan saat menghapus barang');
         }
     }
 }
+
 
 
 
