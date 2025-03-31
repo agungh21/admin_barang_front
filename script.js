@@ -162,7 +162,7 @@ async function simpanBarang() {
         return;
     }
 
-    const payload = { nama, harga };
+    const payload = {id, nama, harga };
 
     try {
         let response;
