@@ -204,9 +204,10 @@ function sembunyikanForm() {
 async function hapusBarang(id) {
     if (confirm('Apakah Anda yakin ingin menghapus barang ini?')) {
         try {
-            const response = await fetch(`${API_URL}/${id}`, {
+            const response = await fetch(API_URL, {  // Kirim tanpa ID di URL
                 method: "DELETE",
-                headers: { "Content-Type": "application/json" }
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id }) // Kirim ID dalam body
             });
 
             if (!response.ok) {
@@ -214,13 +215,14 @@ async function hapusBarang(id) {
             }
             
             alert('Barang berhasil dihapus');
-            loadBarang(); // Pastikan fungsi ini ada dan berfungsi
+            loadBarang(); 
         } catch (error) {
             console.error('Error:', error);
             alert('Terjadi kesalahan saat menghapus barang');
         }
     }
 }
+
 
 
 
