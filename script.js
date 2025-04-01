@@ -235,5 +235,11 @@ function tambahUang(nominal) {
     hitungKembalian();
 }
 
+function resetUangBayar(){
+    let uangBayar = document.getElementById("uangBayar");
+    uangBayar.value = 0;
+    hitungKembalian();
+}
+
 // Load barang saat halaman dibuka
 document.addEventListener("DOMContentLoaded", loadBarang);

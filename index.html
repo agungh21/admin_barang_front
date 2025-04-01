@@ -86,7 +86,7 @@
                                     <tr>
                                         <td class="text-end text-primary">Uang Bayar</td>
                                         <td colspan="4">
-                                            <input type="number" id="uangBayar" class="form-control mb-2" placeholder="Masukkan Uang Bayar disini" oninput="hitungKembalian()">
+                                                <input type="number" id="uangBayar" class="form-control mb-2" placeholder="Masukkan Uang Bayar disini" oninput="hitungKembalian()">
                                             <div class="d-flex flex-wrap gap-2">
                                                 <button class="btn btn-outline-primary" onclick="tambahUang(500)">500</button>
                                                 <button class="btn btn-outline-primary" onclick="tambahUang(1000)">1.000</button>
@@ -96,6 +96,7 @@
                                                 <button class="btn btn-outline-primary" onclick="tambahUang(20000)">20.000</button>
                                                 <button class="btn btn-outline-primary" onclick="tambahUang(50000)">50.000</button>
                                                 <button class="btn btn-outline-primary" onclick="tambahUang(100000)">100.000</button>
+                                                <button class="btn btn-outline-danger" onclick="resetUangBayar()"><i class="fas fa-refresh"></i></button>
                                             </div>
                                         </td>
                                     </tr>
