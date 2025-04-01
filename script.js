@@ -339,7 +339,194 @@ function printShoppingCalculator() {
     printWindow.print();
 }
 
+function downloadShoppingCalculatorV1() {
+    
+    // Create a new instance of jsPDF with custom page size (58mm x 297mm for thermal paper)
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF('p', 'mm', [58, 297]); // Portrait mode, 58mm x 297mm page size
 
+    // Set the font and size for thermal printer
+    doc.setFontSize(6);  // Reduce font size for better readability on small paper
+
+    $strip = '-';
+    for (let index = 0; index < 180; index++) {
+        $strip += '-';
+    }
+
+    // Title/Store Name
+    doc.text('Toko Emoh', 29, 10, { align: 'center' });
+    doc.text('Jl. Bandorasa-Linggarjati', 29, 14, { align: 'center' });
+    doc.text('Desa Bandorasawetan', 29, 18, { align: 'center' });
+    doc.text($strip, 0, 22, { align: 'center' });
+
+    // Table headers
+    doc.text('Nama', 8, 26);
+    doc.text('Harga', 34, 26, { align: 'right' });
+    doc.text('Jml', 40, 26, { align: 'right' });
+    doc.text('Subtotal', 50, 26, { align: 'right' });
+
+    doc.text($strip, 0, 30, { align: 'center' });
+
+    var totalBelanja = 0; // Initialize total
+    var cartItems = document.getElementById('cartList').getElementsByTagName('tr');
+    var yPosition = 34; // Initial position for the items in the table
+
+    for (var i = 0; i < cartItems.length; i++) {
+        var row = cartItems[i];
+        var harga = parseFloat(row.cells[1].innerText.replace(/[^0-9.-]+/g, ""));
+        
+        // Get the quantity from the input field
+        var jumlah = parseInt(row.cells[2].querySelector('input').value) || 0;  // Default to 0 if empty or invalid
+        
+        var subtotal = harga * jumlah;
+
+        totalBelanja += subtotal; // Add subtotal to total
+
+        // Adding row data to the PDF
+        doc.text(row.cells[0].innerText, 8, yPosition);
+        doc.text(harga.toLocaleString(), 34, yPosition, { align: 'right' });
+        doc.text(jumlah.toString(), 40, yPosition, { align: 'right' });
+        doc.text(subtotal.toLocaleString(), 50, yPosition, { align: 'right' });
+
+        yPosition += 4; // Move to the next line
+    }
+
+    doc.text($strip, 0, yPosition, { align: 'center' });
+
+    // Total Section
+    var uangBayar = parseInt(document.getElementById('uangBayar').value) || 0;
+    var kembalian = uangBayar - totalBelanja;
+
+    yPosition += 4;
+    doc.text('Total Belanja: ' + totalBelanja.toLocaleString(), 50, yPosition, { align: 'right' });
+    yPosition += 4;
+    doc.text('Uang Bayar: ' + uangBayar.toLocaleString(), 50, yPosition, { align: 'right' });
+    yPosition += 4;
+    doc.text('Kembalian: ' + kembalian.toLocaleString(), 50, yPosition, { align: 'right' });
+
+    doc.text($strip, 0, yPosition+4, { align: 'center' });
+
+    // Footer
+    yPosition += 8;
+    doc.text('Terima Kasih', 29, yPosition, { align: 'center' });
+    yPosition += 4;
+    doc.text('Selamat Belanja Kembali!', 29, yPosition, { align: 'center' });
+
+    // Get current date and time in Indonesian format
+    var now = new Date();
+    var tanggal = now.toLocaleString('id-ID', {
+        weekday: 'long', // Day of the week (e.g., "Senin")
+        year: 'numeric', // Year (e.g., "2025")
+        month: 'long', // Month (e.g., "Januari")
+        day: 'numeric', // Day (e.g., "1")
+        hour: '2-digit', // Hour (e.g., "10")
+        minute: '2-digit', // Minute (e.g., "10")
+        second: '2-digit', // Second (e.g., "00")
+    });
+    tanggal = tanggal.replace('pukul', '').trim();
+    doc.text(tanggal, 29, yPosition + 4, { align: 'center' });
+
+    // Trigger PDF download
+    doc.save('struk_belanja.pdf');
+}
+
+function downloadShoppingCalculator() {
+    // Pastikan jsPDF dan autoTable tersedia
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF('p', 'mm', [58, 297]); // Mode Potrait, 58mm x 297mm (thermal paper)
+    
+    // Set ukuran font untuk thermal printer
+    doc.setFontSize(6);
+
+    $strip = '-';
+    for (let index = 0; index < 180; index++) {
+        $strip += '-';
+    }
+
+    // Header Toko
+    doc.text('Toko Emoh', 29, 10, { align: 'center' });
+    doc.text('Jl. Bandorasa-Linggarjati', 29, 14, { align: 'center' });
+    doc.text('Desa Bandorasawetan', 29, 18, { align: 'center' });
+
+    // Garis pemisah
+    doc.text($strip, 0, 22);
+
+    // Ambil data dari tabel HTML (id="cartList")
+    var cartItems = document.getElementById('cartList').getElementsByTagName('tr');
+    var totalBelanja = 0;
+    var data = []; // Array untuk tabel PDF
+
+    for (var i = 0; i < cartItems.length; i++) {
+        var row = cartItems[i];
+        var nama = row.cells[0].innerText;
+        var harga = parseFloat(row.cells[1].innerText.replace(/[^0-9.-]+/g, ""));
+        var jumlah = parseInt(row.cells[2].querySelector('input').value) || 0;
+        var subtotal = harga * jumlah;
+
+        totalBelanja += subtotal;
+
+        data.push([nama, harga.toLocaleString(), jumlah, subtotal.toLocaleString()]);
+    }
+
+    // Tabel daftar belanja
+    doc.autoTable({
+        startY: 26, // Mulai di posisi Y: 26mm
+        margin: { left: 4, right: 4 }, // Mulai dari X = 4mm
+        head: [['Nama', 'Harga', 'Jml', 'Subtotal']],
+        body: data,
+        theme: 'plain', // Hapus warna latar belakang
+        styles: { fontSize: 6, cellPadding: 1, fillColor: false }, // Hilangkan background
+        columnStyles: {
+            1: { halign: 'right' },
+            2: { halign: 'right' },
+            3: { halign: 'right' }
+        }
+    });
+
+    // Posisi setelah tabel
+    var finalY = doc.lastAutoTable.finalY + 4;
+
+    // Garis pemisah
+    doc.text($strip, 0, finalY);
+
+    // Ambil nilai uang bayar
+    var uangBayar = parseInt(document.getElementById('uangBayar').value) || 0;
+    var kembalian = uangBayar - totalBelanja;
+
+    // Total belanja, uang bayar, dan kembalian
+    finalY += 4;
+    doc.text(`Total Belanja : ${totalBelanja.toLocaleString()}`, 53, finalY, { align: 'right' });
+    finalY += 4;
+    doc.text(`Uang Bayar    : ${uangBayar.toLocaleString()}`, 53, finalY, { align: 'right' });
+    finalY += 4;
+    doc.text(`Kembalian     : ${kembalian.toLocaleString()}`, 53, finalY, { align: 'right' });
+
+    // Garis pemisah lagi
+    doc.text($strip, 0, finalY + 4);
+
+    // Footer
+    finalY += 8;
+    doc.text('Terima Kasih', 29, finalY, { align: 'center' });
+    finalY += 4;
+    doc.text('Selamat Belanja Kembali!', 29, finalY, { align: 'center' });
+
+    // Tanggal & Waktu Cetak
+    var now = new Date();
+    var tanggal = now.toLocaleString('id-ID', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+    }).replace('pukul', '').trim();
+
+    doc.text(tanggal, 29, finalY + 6, { align: 'center' });
+
+    // Download PDF
+    doc.save('struk_belanja.pdf');
+}
 
 
 // Load barang saat halaman dibuka
