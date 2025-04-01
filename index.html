@@ -8,12 +8,25 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <!-- Font Awesome 6 (CDN) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/black/pace-theme-flash.min.css" rel="stylesheet">
 
     <style>
         body{
             background: linear-gradient(to bottom, #000000, #1a1a2e, #16213e); /* Smooth night gradient */
             font-size: 10pt !important;
             font-weight: bold !important;
+        }
+
+        /* Change the background color of the Pace bar */
+        .pace .pace-progress {
+            background: #3498db; /* Change this to your desired color (e.g., #3498db for blue) */
+        }
+
+        /* Change the color of the top bar if needed */
+        .pace .pace-activity {
+            background: #3498db; /* For example, a yellow color */
         }
 
         /* Adjustments for mobile devices */
