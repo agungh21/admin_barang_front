@@ -133,7 +133,6 @@ function tampilForm(id = null) {
     }
 
     if (id) {
-        document.getElementById("formTitle").textContent = "Edit Barang";
         const barang = barangData.find(item => item.id === id);
         if (!barang) return;
 
@@ -141,7 +140,6 @@ function tampilForm(id = null) {
         inputNama.value = barang.nama;
         inputHarga.value = barang.harga;
     } else {
-        document.getElementById("formTitle").textContent = "Tambah Barang";
         inputId.value = "";
         inputNama.value = "";
         inputHarga.value = "";
