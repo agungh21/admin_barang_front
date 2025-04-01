@@ -96,7 +96,7 @@
                 <div class="card">
                     <div class="card-body">         
                         <h3 class="text-left text-success"><i class="fas fa-shopping-cart"></i> Kalkulator Belanja</h3>
-                        <div class="table-responsive">
+                        <div class="table-responsive" id="tableKeranjang">
                             <table class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
@@ -104,7 +104,7 @@
                                         <th class="text-center bg-success text-white">Harga</th>
                                         <th class="text-center bg-success text-white">Jumlah</th>
                                         <th class="text-center bg-success text-white">Subtotal</th>
-                                        <th class="text-center bg-success text-white">#</th>
+                                        <th class="text-center bg-success text-white"><button class="btn btn-success" onclick="printShoppingCalculator()"><i class="fas fa-print"></i></button></th>
                                     </tr>
                                 </thead>
                                 <tbody id="cartList"></tbody>

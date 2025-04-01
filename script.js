@@ -251,5 +251,96 @@ function resetFilter() {
     table.column(1).search('').draw();
 }
 
+function printShoppingCalculator() {
+    var printWindow = window.open('', '', 'height=800,width=1000');
+    printWindow.document.write('<html><head><title>Shopping Calculator</title>');
+    printWindow.document.write('<style>');
+    printWindow.document.write('body { font-family: Courier, monospace; font-size: 10px; width: 250px; margin: 0; padding: 10px; }');
+    printWindow.document.write('table { width: 100%; border: none; margin-bottom: 10px; font-size: 10px; }');
+    printWindow.document.write('th, td { text-align: left; padding: 5px 0.5px; }');
+    printWindow.document.write('th { font-weight: bold; }');
+    printWindow.document.write('.text-end { text-align: right; }');
+    printWindow.document.write('.text-center { text-align: center; }');
+    printWindow.document.write('.text-danger { color: red; font-weight: bold; }');
+    printWindow.document.write('.text-success { color: green; font-weight: bold; }');
+    printWindow.document.write('.text-primary { color: blue; font-weight: bold; }');
+    printWindow.document.write('.bg-success { background-color: #28a745; color: white; }');
+    printWindow.document.write('hr { border-top: 1px dashed #000; margin: 5px 0; }');
+    printWindow.document.write('</style>');
+    printWindow.document.write('</head><body>');
+    
+    // Title/Store Name
+    printWindow.document.write('<h3 class="text-center">Toko Emoh</h3>');
+    printWindow.document.write('<h3 class="text-center">Jl. Bandorasa-Linggarjati Desa Bandorasawetan</h3>');
+    printWindow.document.write('<hr>');
+    
+     // Table
+    printWindow.document.write('<table>');
+    printWindow.document.write('<thead>');
+    printWindow.document.write('<tr><th>Nama</th><th class="text-end">Hrg</th><th class="text-end">Jml<th class="text-end">Subtotal</th></tr>');
+    printWindow.document.write('</thead>');
+    printWindow.document.write('<tbody>');
+    
+    var totalBelanja = 0; // Initialize total
+    var cartItems = document.getElementById('cartList').getElementsByTagName('tr');
+    for (var i = 0; i < cartItems.length; i++) {
+        var row = cartItems[i];
+        var harga = parseFloat(row.cells[1].innerText.replace(/[^0-9.-]+/g, ""));
+        
+        // Get the quantity from the input field
+        var jumlah = parseInt(row.cells[2].querySelector('input').value) || 0;  // Default to 0 if empty or invalid
+        
+        var subtotal = harga * jumlah;
+
+        totalBelanja += subtotal; // Add subtotal to total
+        
+        printWindow.document.write('<tr>');
+        printWindow.document.write('<td>' + row.cells[0].innerText + '</td>');
+        printWindow.document.write('<td class="text-end">' + harga.toLocaleString() + '</td>');
+        printWindow.document.write('<td class="text-end">' + jumlah + '</td>');
+        printWindow.document.write('<td class="text-end">' + subtotal.toLocaleString() + '</td>');
+        printWindow.document.write('</tr>');
+    }
+
+    printWindow.document.write('</tbody>');
+    printWindow.document.write('</table>');
+
+    // Total Section
+    printWindow.document.write('<hr>');
+    
+    // Assuming you have input fields or variables for 'uangBayar' and 'kembalian'
+    var uangBayar = parseInt(document.getElementById('uangBayar').value) || 0;
+    var kembalian = uangBayar - totalBelanja;
+
+    printWindow.document.write('<div class="text-end text-dark">Total Belanja: ' + totalBelanja.toLocaleString() + '</div>');
+    printWindow.document.write('<div class="text-end text-dark">Kembalian: ' + kembalian.toLocaleString() + '</div>');
+    printWindow.document.write('<div class="text-end text-dark">Uang Bayar: ' + uangBayar.toLocaleString() + '</div>');
+
+    printWindow.document.write('<hr>');
+    printWindow.document.write('<div class="text-center">Terima Kasih</div>');
+    printWindow.document.write('<div class="text-center">Selamat Belanja Kembali!</div>');
+    // Get current date and time in Indonesian format
+    var now = new Date();
+    var tanggal = now.toLocaleString('id-ID', {
+        weekday: 'long', // Day of the week (e.g., "Senin")
+        year: 'numeric', // Year (e.g., "2025")
+        month: 'long', // Month (e.g., "Januari")
+        day: 'numeric', // Day (e.g., "1")
+        hour: '2-digit', // Hour (e.g., "10")
+        minute: '2-digit', // Minute (e.g., "10")
+        second: '2-digit', // Second (e.g., "00")
+    });
+    tanggal = tanggal.replace('pukul', '').trim();
+    
+    printWindow.document.write('<div class="text-center">'+ tanggal + '</div>');
+    printWindow.document.write('</body></html>');
+
+    printWindow.document.close();
+    printWindow.print();
+}
+
+
+
+
 // Load barang saat halaman dibuka
 document.addEventListener("DOMContentLoaded", loadBarang);
