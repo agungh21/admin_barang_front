@@ -11,8 +11,17 @@
 
     <style>
         body{
+            background: linear-gradient(to bottom, #000000, #1a1a2e, #16213e); /* Smooth night gradient */
             font-size: 10pt !important;
             font-weight: bold !important;
+        }
+
+        /* Adjustments for mobile devices */
+        @media (max-width: 768px) {
+            body {
+                background-size: contain; /* Adjusts to fit smaller screens */
+                background-position: top center; /* Aligns better for mobile */
+            }
         }
     </style>
 </head>
@@ -20,14 +29,14 @@
     <div class="container mt-4">
         <div class="row">
             <div class="col-lg-6 col-md-12">
-                <div class="card">
+                <div class="card mb-4">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-1">
                                 <button class="btn btn-primary mb-3 text-center" onclick="tampilForm()"><i class="fas fa-plus"></i></button>
                             </div>
-                            <div class="col-md-6">
-                                <h2 class="text-center text-primary">Manajemen Barang</h2>
+                            <div class="col-md-11">
+                                <h2 class="text-primary"> <i class="fas fa-box-open"></i> Manajemen Barang</h2>
                             </div>
                         </div>
                         <!-- Form Tambah/Edit Barang -->
@@ -82,16 +91,16 @@
             <div class="col-lg-6 col-md-12">
                 <div class="card">
                     <div class="card-body">         
-                        <h3 class="text-left text-primary"><i class="fas fa-shopping-cart"></i> Kalkulator Belanja</h3>
+                        <h3 class="text-left text-success"><i class="fas fa-shopping-cart"></i> Kalkulator Belanja</h3>
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th class="text-center bg-primary text-white">Nama</th>
-                                        <th class="text-center bg-primary text-white">Harga</th>
-                                        <th class="text-center bg-primary text-white">Jumlah</th>
-                                        <th class="text-center bg-primary text-white">Subtotal</th>
-                                        <th class="text-center bg-primary text-white">#</th>
+                                        <th class="text-center bg-success text-white">Nama</th>
+                                        <th class="text-center bg-success text-white">Harga</th>
+                                        <th class="text-center bg-success text-white">Jumlah</th>
+                                        <th class="text-center bg-success text-white">Subtotal</th>
+                                        <th class="text-center bg-success text-white">#</th>
                                     </tr>
                                 </thead>
                                 <tbody id="cartList"></tbody>
@@ -99,6 +108,10 @@
                                     <tr>
                                         <td class="text-end text-danger">Total Belanja</td>
                                         <td class="text-first text-danger" colspan="4"><span id="totalHarga">0</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-end text-success">Kembalian</td>
+                                        <td colspan="4" class="text-success"><span id="kembalian">0</span></td>
                                     </tr>
                                     <tr>
                                         <td class="text-end text-primary">Uang Bayar</td>
@@ -122,10 +135,6 @@
                                                 <button class="btn btn-outline-danger" onclick="resetUangBayar()"><i class="fas fa-refresh"></i></button>
                                             </div>
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-end text-success">Kembalian</td>
-                                        <td colspan="4" class="text-success"><span id="kembalian">0</span></td>
                                     </tr>
                                 </tfoot>
                             </table>
