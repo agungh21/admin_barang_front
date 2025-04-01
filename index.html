@@ -32,26 +32,9 @@
                 <div class="card mb-4">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-1">
-                                <button class="btn btn-primary mb-3 text-center" onclick="tampilForm()"><i class="fas fa-plus"></i></button>
-                            </div>
-                            <div class="col-md-11">
+                            <div class="col-md-12">
                                 <h2 class="text-primary"> <i class="fas fa-box-open"></i> Manajemen Barang</h2>
                             </div>
-                        </div>
-                        <!-- Form Tambah/Edit Barang -->
-                        <div id="formBarang" class="container mt-4 d-none">
-                            <input type="hidden" id="editId">
-                            
-                            <div class="mb-2">
-                                <input type="text" id="namaBarang" class="form-control" placeholder="Masukkan Nama Barang">
-                            </div>
-                            <div class="mb-2">
-                                <input type="number" id="hargaBarang" class="form-control" placeholder="Masukkan Harga Barang">
-                            </div>
-                            
-                            <button class="btn btn-success" onclick="simpanBarang()">Simpan</button>
-                            <button class="btn btn-secondary" onclick="sembunyikanForm()">Batal</button>
                         </div>
                         <hr>
                         <div class="mb-3">
@@ -70,13 +53,34 @@
                             <button class="btn btn-outline-primary mb-1" onclick="filterKategori('Terigu')">Terigu</button>
                             <button class="btn btn-outline-danger mb-1" onclick="resetFilter()"><i class="fas fa-refresh"></i></button>
                         </div>
-
+                        <hr>
+                        <!-- Form Tambah/Edit Barang -->
+                        <div id="formBarang" class="container mt-4 d-none">
+                            <input type="hidden" id="editId">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="mb-2 ">
+                                        <input type="text" id="namaBarang" class="form-control" placeholder="Masukkan Nama Barang">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="mb-2">
+                                        <input type="number" id="hargaBarang" class="form-control" placeholder="Masukkan Harga Barang">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <button class="btn btn-success" onclick="simpanBarang()"><i class="fas fa-check"></i></button>
+                                    <button class="btn btn-danger" onclick="sembunyikanForm()"><i class="fas fa-times"></i></button>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
                          <!-- Tabel Barang -->
                          <div class="table-responsive">
                             <table id="barangTable" class="table table-bordered table-striped display">
                                 <thead class="text-center">
                                     <tr>
-                                        <th class="text-center bg-primary text-white">#</th>
+                                        <th class="text-center bg-primary text-white"><button class="btn btn-primary" onclick="tampilForm()"><i class="fas fa-plus"></i></button></th>
                                         <th class="text-center bg-primary text-white">Nama</th>
                                         <th class="text-center bg-primary text-white">Harga</th>
                                         <th class="text-center bg-primary text-white">#</th>
