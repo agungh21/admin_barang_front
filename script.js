@@ -16,13 +16,13 @@ function tampilkanBarang(data) {
 
     data.forEach(item => {
         const row = `<tr>
-            <td><button class="btn btn-success btn-sm" onclick="tambahKeKeranjang('${item.id}')"><i class="fas fa-plus"></i></button></td>
+            <td>
+            <button class="btn btn-warning btn-sm" onclick="tampilForm('${item.id}')"><i class="fas fa-edit"></i></button>
+            <button class="btn btn-danger btn-sm" onclick="hapusBarang('${item.id}')"><i class="fas fa-trash"></i></button>
+            </td>
             <td>${item.nama}</td>
             <td>${item.harga.toLocaleString()}</td>
-            <td>
-                <button class="btn btn-warning btn-sm" onclick="tampilForm('${item.id}')"><i class="fas fa-edit"></i></button>
-                <button class="btn btn-danger btn-sm" onclick="hapusBarang('${item.id}')"><i class="fas fa-trash"></i></button>
-            </td>
+            <td><button class="btn btn-success btn-sm" onclick="tambahKeKeranjang('${item.id}')"><i class="fas fa-plus"></i></button></td>
         </tr>`;
         tbody.innerHTML += row;
     });
@@ -187,8 +187,8 @@ async function simpanBarang() {
         }
 
         if (response.ok) {
-            sembunyikanForm();
-            loadBarang();
+            // sembunyikanForm();
+            window.location.reload();
         } else {
             throw new Error("Gagal menyimpan data");
         }
@@ -239,6 +239,16 @@ function resetUangBayar(){
     let uangBayar = document.getElementById("uangBayar");
     uangBayar.value = 0;
     hitungKembalian();
+}
+
+function filterKategori(kategori) {
+    var table = $('#barangTable').DataTable();
+    table.column(1).search(kategori).draw();
+}
+
+function resetFilter() {
+    var table = $('#barangTable').DataTable();
+    table.column(1).search('').draw();
 }
 
 // Load barang saat halaman dibuka
