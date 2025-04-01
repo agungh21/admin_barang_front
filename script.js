@@ -459,8 +459,9 @@ function downloadShoppingCalculator() {
     for (var i = 0; i < cartItems.length; i++) {
         var row = cartItems[i];
         var nama = row.cells[0].innerText;
-        var harga = parseFloat(row.cells[1].innerText.replace(/[^0-9.-]+/g, ""));
-        var jumlah = parseInt(row.cells[2].querySelector('input').value) || 0;
+        var harga = row.cells[1].innerText.replace(/,/g, "");
+        var jumlah = row.cells[2].querySelector('input').value || 0;
+        harga = parseInt(harga);
         var subtotal = harga * jumlah;
 
         totalBelanja += subtotal;
