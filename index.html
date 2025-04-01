@@ -18,7 +18,7 @@
 <body>
     <div class="container mt-4">
         <div class="row">
-            <div class="col-6">
+            <div class="col-lg-6 col-md-12">
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
@@ -46,62 +46,66 @@
                         <hr>
         
                          <!-- Tabel Barang -->
-                         <table id="barangTable" class="table table-bordered table-striped display">
-                            <thead class="text-center">
-                                <tr>
-                                    <th class="text-center bg-primary text-white">#</th>
-                                    <th class="text-center bg-primary text-white">Nama</th>
-                                    <th class="text-center bg-primary text-white">Harga</th>
-                                    <th class="text-center bg-primary text-white">#</th>
-                                </tr>
-                            </thead>
-                            <tbody id="barangList"></tbody>
-                        </table>
+                         <div class="table-responsive">
+                            <table id="barangTable" class="table table-bordered table-striped display">
+                                <thead class="text-center">
+                                    <tr>
+                                        <th class="text-center bg-primary text-white">#</th>
+                                        <th class="text-center bg-primary text-white">Nama</th>
+                                        <th class="text-center bg-primary text-white">Harga</th>
+                                        <th class="text-center bg-primary text-white">#</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="barangList"></tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-lg-6 col-md-12">
                 <div class="card">
                     <div class="card-body">         
                         <h3 class="text-left text-primary"><i class="fas fa-shopping-cart"></i> Kalkulator Belanja</h3>
-                        <table class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th class="text-center bg-primary text-white">Nama</th>
-                                    <th class="text-center bg-primary text-white">Harga</th>
-                                    <th class="text-center bg-primary text-white">Jumlah</th>
-                                    <th class="text-center bg-primary text-white">Subtotal</th>
-                                    <th class="text-center bg-primary text-white">#</th>
-                                </tr>
-                            </thead>
-                            <tbody id="cartList"></tbody>
-                            <tfoot>
-                                <tr>
-                                    <td class="text-end text-danger">Total Belanja</td>
-                                    <td class="text-first text-danger" colspan="4"><span id="totalHarga">0</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-end text-primary">Uang Bayar</td>
-                                    <td colspan="4">
-                                        <input type="number" id="uangBayar" class="form-control mb-2" placeholder="Masukkan Uang Bayar disini" oninput="hitungKembalian()">
-                                        <div class="d-flex flex-wrap gap-2">
-                                            <button class="btn btn-outline-primary" onclick="tambahUang(500)">500</button>
-                                            <button class="btn btn-outline-primary" onclick="tambahUang(1000)">1.000</button>
-                                            <button class="btn btn-outline-primary" onclick="tambahUang(2000)">2.000</button>
-                                            <button class="btn btn-outline-primary" onclick="tambahUang(5000)">5.000</button>
-                                            <button class="btn btn-outline-primary" onclick="tambahUang(10000)">10.000</button>
-                                            <button class="btn btn-outline-primary" onclick="tambahUang(20000)">20.000</button>
-                                            <button class="btn btn-outline-primary" onclick="tambahUang(50000)">50.000</button>
-                                            <button class="btn btn-outline-primary" onclick="tambahUang(100000)">100.000</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-end text-success">Kembalian</td>
-                                    <td colspan="4" class="text-success"><span id="kembalian">0</span></td>
-                                </tr>
-                            </tfoot>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center bg-primary text-white">Nama</th>
+                                        <th class="text-center bg-primary text-white">Harga</th>
+                                        <th class="text-center bg-primary text-white">Jumlah</th>
+                                        <th class="text-center bg-primary text-white">Subtotal</th>
+                                        <th class="text-center bg-primary text-white">#</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="cartList"></tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td class="text-end text-danger">Total Belanja</td>
+                                        <td class="text-first text-danger" colspan="4"><span id="totalHarga">0</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-end text-primary">Uang Bayar</td>
+                                        <td colspan="4">
+                                            <input type="number" id="uangBayar" class="form-control mb-2" placeholder="Masukkan Uang Bayar disini" oninput="hitungKembalian()">
+                                            <div class="d-flex flex-wrap gap-2">
+                                                <button class="btn btn-outline-primary" onclick="tambahUang(500)">500</button>
+                                                <button class="btn btn-outline-primary" onclick="tambahUang(1000)">1.000</button>
+                                                <button class="btn btn-outline-primary" onclick="tambahUang(2000)">2.000</button>
+                                                <button class="btn btn-outline-primary" onclick="tambahUang(5000)">5.000</button>
+                                                <button class="btn btn-outline-primary" onclick="tambahUang(10000)">10.000</button>
+                                                <button class="btn btn-outline-primary" onclick="tambahUang(20000)">20.000</button>
+                                                <button class="btn btn-outline-primary" onclick="tambahUang(50000)">50.000</button>
+                                                <button class="btn btn-outline-primary" onclick="tambahUang(100000)">100.000</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-end text-success">Kembalian</td>
+                                        <td colspan="4" class="text-success"><span id="kembalian">0</span></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
