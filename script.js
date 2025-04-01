@@ -482,7 +482,9 @@ function downloadShoppingCalculator() {
         ]),        
         theme: 'plain', // Hapus warna latar belakang
         styles: { fontSize: 6, cellPadding: 1, fillColor: false }, // Hilangkan background
+        headStyles: { halign: 'center' }, // Header rata kanan
         columnStyles: {
+            0: { halign: 'left' },  // Nama tetap rata kiri
             1: { halign: 'right' }, // Harga
             2: { halign: 'right' }, // Jml
             3: { halign: 'right' }  // Subtotal
