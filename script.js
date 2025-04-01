@@ -56,7 +56,7 @@ function tambahKeKeranjang(id) {
     } else {
         cart.push({ ...barang, jumlah: 1 });
     }
-
+    hitungKembalian();
     tampilkanKeranjang();
 }
 
@@ -228,9 +228,12 @@ async function hapusBarang(id) {
     }
 }
 
-
-
-
+function tambahUang(nominal) {
+    let uangBayar = document.getElementById("uangBayar");
+    let nilaiSekarang = parseInt(uangBayar.value) || 0;
+    uangBayar.value = nilaiSekarang + nominal;
+    hitungKembalian();
+}
 
 // Load barang saat halaman dibuka
 document.addEventListener("DOMContentLoaded", loadBarang);
