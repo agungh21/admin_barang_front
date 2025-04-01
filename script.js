@@ -473,13 +473,18 @@ function downloadShoppingCalculator() {
         startY: 26, // Mulai di posisi Y: 26mm
         margin: { left: 4, right: 4 }, // Mulai dari X = 4mm
         head: [['Nama', 'Harga', 'Jml', 'Subtotal']],
-        body: data,
+        body: data.map(row => [
+            row[0],                   // Nama
+            row[1].toLocaleString(),        // Harga sebagai string
+            row[2].toString(),        // Jml sebagai string
+            row[3].toLocaleString()         // Subtotal sebagai string
+        ]),        
         theme: 'plain', // Hapus warna latar belakang
         styles: { fontSize: 6, cellPadding: 1, fillColor: false }, // Hilangkan background
         columnStyles: {
-            1: { halign: 'right' },
-            2: { halign: 'right' },
-            3: { halign: 'right' }
+            1: { halign: 'right' }, // Harga
+            2: { halign: 'right' }, // Jml
+            3: { halign: 'right' }  // Subtotal
         }
     });
 
